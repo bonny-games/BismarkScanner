@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+<div>
+    {% for item in listScanov %}
+    <a href="/contract/{{item[0]}}">
+        {{item[0]}}
+    </a><br>
+    {% endfor %}
+</div>
+{% endblock %}

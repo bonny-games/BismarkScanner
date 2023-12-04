@@ -1,0 +1,18 @@
+{% extends "devoleper/base.html" %} {% block title %}Registr{% endblock %} {%
+block head %}
+<script>
+  function reg() {
+    const elementById = document.getElementById("password");
+    document.cookie = "frags=" + elementById.value;
+    console.log("Пароль успешно зарегистрирован в куки.");
+    location.reload();
+  }
+</script>
+{% endblock %} {% block body %}
+<div class="containerReg">
+  <div class="input-fieldReg">
+    <input type="text" id="password" placeholder="Введите пароль админов" />
+  </div>
+  <button class="btnReg" onclick="reg()">регистрироватса</button>
+</div>
+{% endblock %}

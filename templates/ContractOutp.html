@@ -11,11 +11,25 @@
         white-space: pre-wrap;
     }
 </style>
+Statys: {% if  res['Stayt'] == 0 %}
+⚪️
+{% elif  res['Stayt'] == 1 %}
+🟡
+{% elif  res['Stayt'] == 2 %}
+🟢
+{% elif  res['Stayt'] == 3 %}
+🔴
+{% endif %}
+<br>
+<a href="/contract/{{res['id']}}/view">View Code</a><br>
+{% if res['Mode'] == "PointsMode" and res['Stayt'] == 2 %}
+<a href="/contract/{{res['id']}}/AnalisText">View Analis Text</a><br>
+<a href="/contract/{{res['id']}}/Analis">View Analis</a><br>
+{% endif %}
 
-<div class="selector">{{res[3]}}
+<div class="selector">{{res['ContractOutp']}}
 </div><br>
-<a href="/contract/{{res[0]}}/view">View Code</a>
-<div class="selector">{{res[1]}}
+<div class="selector">{{res['ContractCode']}}
 </div>
 
 {% endblock %}

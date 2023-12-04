@@ -26,7 +26,7 @@
       <paths name="bt bt">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/mifrilSpidran" local="$PROJECT_DIR$" />
+            <mapping deploy="/" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

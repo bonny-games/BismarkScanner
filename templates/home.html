@@ -1,10 +1,109 @@
 {% extends "base.html" %}
+{% block head %}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 5px solid #fff;
+        padding: 8px;
+        text-align: left;
+        margin-left: 10px;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
+
+{% if sortirovca %}
+
+
 <div>
-    {% for item in listScanov %}
-    <a href="/contract/{{item[0]}}">
-        {{item[0]}}
-    </a><br>
-    {% endfor %}
+    <select id="select_option" name="mode" required>
+        <option value="id">id</option>
+        <option value="Stayt">Stayt</option>
+        <option value="Points">Points</option>
+        <option value="SeverityLow">Low</option>
+        <option value="SeverityMedium">Medium</option>
+        <option value="SeverityHigh">High</option>
+        <option value="SeverityCritical">Critical</option>
+    </select>
+    <button onclick="updateDS()">поиск</button>
+    <script>
+        function updateDS() {
+            // Получение выбранного значения из <select>
+            var selectedValue = document.getElementById("select_option").value;
+
+            var currentURL = window.location.href;
+            var url = new URL(currentURL);
+            var searchParam = url.searchParams.get("search");
+            var searchParamRewert = url.searchParams.get("rewert")=== "true";
+            var rewert = searchParam == selectedValue && !searchParamRewert;
+
+
+
+            var currentURL = window.location.href;
+            var newURL = currentURL.split('?')[0] + '?search=' + selectedValue + "&" + "rewert="+rewert;
+
+            // Перенаправление на новый URL
+            window.location.href = newURL;
+        }
+
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var searchParam = url.searchParams.get("search");
+        console.log(searchParam);
+        if(searchParam!=null){
+        var selectElement = document.getElementById("select_option");
+        selectElement.value = searchParam;
+        }
+    </script>
+</div>
+{% endif %}
+
+<div>
+    <table>
+        <th>id(name)</th>
+        <th>STY</th>
+        <th>Mode</th>
+<!--        <th>Points</th>-->
+        <th>N Low</th>
+        <th>N Medium</th>
+        <th>N High</th>
+        <th>N Critical</th>
+
+
+        {% for item in listScanov %}
+        <tr>
+            <th><a href="/contract/{{item['id']}}">{{item['id']}}{% if item['filename']!=None %} ( {{ item['filename']
+                }} )
+                {% endif %}</a></th>
+            <th>{% if item['Stayt'] == 0 %}
+                ⚪️
+                {% elif item['Stayt'] == 1 %}
+                🟡
+                {% elif item['Stayt'] == 2 %}
+                🟢
+                {% elif item['Stayt'] == 3 %}
+                🔴
+                {% endif %}
+            </th>
+            <th>{{item['Mode']}}</th>
+<!--            <th>{% if item['Points']!=None %} {{ item['Points']}}{% endif %}</th>-->
+            <th>{% if item['SeverityLow']!=None %} {{ item['SeverityLow']}}{% endif %}</th>
+            <th>{% if item['SeverityMedium']!=None %} {{ item['SeverityMedium']}}{% endif %}</th>
+            <th>{% if item['SeverityHigh']!=None %} {{ item['SeverityHigh']}}{% endif %}</th>
+            <th>{% if item['SeverityCritical']!=None %} {{ item['SeverityCritical']}}{% endif %}</th>
+
+
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
 </div>
 {% endblock %}

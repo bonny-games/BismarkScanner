@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block body %}
+<style>
+    .formm {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .form-container {
+        width: 90%;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .form-textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+    .form-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-button:hover {
+        background-color: #45a049;
+    }
+</style>
+<div class ="formm">
+    <form action="/CreateTaskFiles" method="post" class="form-container" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".sol" multiple><br><br>
+        <label for="select_option">Выберите mode:</label>
+        <select id="select_option" name="mode" required>
+            <option value="PointsMode">PointsMode</option>
+            <option value="Defolt">Defolt</option>
+        </select><br><br>
+        <button type="submit" class="form-button">Отправить</button>
+    </form>
+</div>
+{% endblock %}

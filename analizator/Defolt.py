@@ -37,11 +37,19 @@ def Analis(code, output="text"):
                 "text": f"Команда завершилась с ошибкой. Код завершения: {returncode} \nres:{res}",
                 "isUspex": False
             }
-
     except subprocess.TimeoutExpired:
         print(f"Превышено время ожидания ({Config.timeout} секунд). Процесс будет прерван.")
-        os.kill(process.pid, signal.SIGTERM)
-        process.communicate()
+        try:
+            os.kill(process.pid, signal.SIGTERM)
+            process.communicate()
+        except:
+            pass
+
+        try:
+            subprocess.run(f"kill -9 {process.pid}", shell=True)
+        except:
+            pass
+
         return {
             "text": f"Превышено время ожидания ({Config.timeout} секунд). Процесс будет прерван.",
             "isUspex": False

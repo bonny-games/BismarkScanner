@@ -29,4 +29,4 @@ if __name__ == "__main__":
     if ('PYCHARM_HOSTED' in os.environ):
         app.run(host='0.0.0.0', debug=True, port=3001)
     else:
-        app.run(host='0.0.0.0', debug=False, port=3000)
+        app.run(host='0.0.0.0', debug=False, port=3000)#False

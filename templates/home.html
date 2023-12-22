@@ -8,10 +8,14 @@
     }
 
     th, td {
-        border: 5px solid #fff;
+        border: 5px solid #000;
         padding: 8px;
         text-align: left;
         margin-left: 10px;
+    }
+
+    .title{
+        text-align: center;
     }
 </style>
 {% endblock %}
@@ -64,6 +68,13 @@
 </div>
 {% endif %}
 
+
+<div class="title">
+{% for item in titleList %}
+<a href="?title={{item}}">{{item}}</a>
+{% endfor %}
+</div>
+
 <div>
     <table>
         <th>id(name)</th>
@@ -105,5 +116,10 @@
 
 
     </table>
+</div>
+<div class="title">
+{% for item in titleList %}
+<a href="?title={{item}}">{{item}}</a>
+{% endfor %}
 </div>
 {% endblock %}

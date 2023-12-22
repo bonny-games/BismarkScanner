@@ -26,6 +26,17 @@ def Conect():
             return render_template("ContractView.html", res=res)
         return render_template("ContractOutp.html", res=res)
 
+    @app.route("/api/contract/<indeficator>", methods=["GET"])
+    def api_Contract(indeficator):
+        db = sqlite3.connect(Config.NameBD)
+        sql = db.cursor()
+        res = get_SELECT(sql, f"SELECT * FROM Contarcts WHERE id = '{indeficator}'")
+        if (len(res) == 0):
+            return redirect('/')
+        res = res[0]
+        return res
+
+
     @app.route("/contract/<indeficator>/view", methods=["GET"])
     def ContractView(indeficator):
         db = sqlite3.connect(Config.NameBD)
@@ -38,21 +49,25 @@ def Conect():
 
     @app.route("/contract/<indeficator>/Stayt", methods=["GET"])
     def ContractStayt(indeficator):
+        return ContractStayt(indeficator)
+
+    @app.route("/api/contract/<indeficator>/Stayt", methods=["GET"])
+    def api_ContractStayt(indeficator):
         db = sqlite3.connect(Config.NameBD)
         sql = db.cursor()
         res = get_SELECT(sql, f"SELECT * FROM Contarcts WHERE id = '{indeficator}'")
         if (len(res) == 0):
-            return redirect('/')
+            return "indeficator !=",404
         res = res[0]
         return str(res["Stayt"])
 
-    @app.route("/contract/<indeficator>/AnalisText", methods=["GET"])
-    def ContractAnalisText(indeficator):
+    @app.route("/api/contract/<indeficator>/AnalisText", methods=["GET"])
+    def api_ContractAnalisText(indeficator):
         db = sqlite3.connect(Config.NameBD)
         sql = db.cursor()
         res = get_SELECT(sql, f"SELECT * FROM Contarcts WHERE id = '{indeficator}'")
         if (len(res) == 0):
-            return redirect('/')
+            return "indeficator !=", 404
         res = res[0]
         resjson = json.loads(res['ContractOutp'])
         restext = ""
@@ -79,8 +94,17 @@ def Conect():
             # "Account: "
 
         res["ContractCode"] = restext
-        return render_template("ContractView.html", res=res)
+        return res
+
+    @app.route("/contract/<indeficator>/AnalisText", methods=["GET"])
+    def ContractAnalisText(indeficator):
+        return render_template("ContractView.html", res=api_ContractAnalisText(indeficator))
 
     @app.route("/contract/<indeficator>/Analis", methods=["GET"])
     def ContractAnalis(indeficator):
         return "в разработке"
+
+    @app.route("/api/contract/<indeficator>/Analis", methods=["GET"])
+    def api_ContractAnalis(indeficator):
+        return "в разработке"
+

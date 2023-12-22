@@ -40,6 +40,11 @@
     .form-button:hover {
         background-color: #45a049;
     }
+
+    #input_text{
+        color: #ffffff;
+        background-color: #000000;
+    }
 </style>
 <div class ="formm">
     <form action="/CreateTask" method="post" class="form-container">
@@ -50,6 +55,15 @@
         <select id="select_option" name="mode" required>
             <option value="PointsMode">PointsMode</option>
             <option value="Defolt">Defolt</option>
+        </select><br><br>
+
+        <label for="select_option">Выберите priority:</label>
+        <select id="select_option2" name="priority" required>
+            <option value="0">max</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
         </select><br><br>
 
         <button type="submit" class="form-button">Отправить</button>

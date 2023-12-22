@@ -19,7 +19,8 @@ def init():
         SeverityMedium INTEGER,
         SeverityHigh INTEGER,
         SeverityCritical INTEGER,
-        filename TEXT
+        filename TEXT,
+        Priority INTEGER
     )
     """)
     db.commit()

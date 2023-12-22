@@ -35,7 +35,10 @@ def Unit(i):
 def ContractPoisc():
     db = sqlite3.connect(Config.NameBD)
     sql = db.cursor()
-    res = get_SELECT(sql,f"SELECT * FROM Contarcts WHERE Stayt = 0")
+    for i in range(5):
+        res = get_SELECT(sql,f"SELECT * FROM Contarcts WHERE Stayt = 0 AND Priority == {i}")
+        if (len(res) != 0):
+            break
     if(len(res) == 0):
         return
     res = res[0]

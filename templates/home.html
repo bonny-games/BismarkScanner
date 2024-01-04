@@ -71,7 +71,11 @@
 
 <div class="title">
 {% for item in titleList %}
+    {% if titleIndex == item %}
+    <b><a href="?title={{item}}" style="color: #0032ff; font-size: 110%">{{item}}</a></b>
+    {% else%}
 <a href="?title={{item}}">{{item}}</a>
+    {% endif %}
 {% endfor %}
 </div>
 
@@ -85,6 +89,7 @@
         <th>N Medium</th>
         <th>N High</th>
         <th>N Critical</th>
+        <th>buton controlir</th>
 
 
         {% for item in listScanov %}
@@ -100,6 +105,8 @@
                 🟢
                 {% elif item['Stayt'] == 3 %}
                 🔴
+                {% elif item['Stayt'] == -1 %}
+                🔴🟡
                 {% endif %}
             </th>
             <th>{{item['Mode']}}</th>
@@ -108,9 +115,17 @@
             <th>{% if item['SeverityMedium']!=None %} {{ item['SeverityMedium']}}{% endif %}</th>
             <th>{% if item['SeverityHigh']!=None %} {{ item['SeverityHigh']}}{% endif %}</th>
             <th>{% if item['SeverityCritical']!=None %} {{ item['SeverityCritical']}}{% endif %}</th>
-
-
-
+            <th>
+                {% if  item['Stayt'] == 0 %}
+                <button onclick=apiCas('/api/contract/{{item["id"]}}/Cancel')>cancel</button>
+                {% elif  item['Stayt'] == 1 %}
+                <button onclick=apiCas('/api/contract/{{item["id"]}}/Breic')>Breic</button>
+                {% elif  item['Stayt'] == 2 %}
+                <button onclick=apiCas('/api/contract/{{item["id"]}}/Restart')>Restart</button>
+                {% elif  item['Stayt'] == 3 %}
+                <button onclick=apiCas('/api/contract/{{item["id"]}}/Restart')>Restart</button>
+                {% endif %}
+            </th>
         </tr>
         {% endfor %}
 
@@ -119,7 +134,29 @@
 </div>
 <div class="title">
 {% for item in titleList %}
+    {% if titleIndex == item %}
+    <a href="?title={{item}}" style="color: #0032ff; font-size: 110%"><b>{{item}}</b></a>
+    {% else%}
 <a href="?title={{item}}">{{item}}</a>
+    {% endif %}
 {% endfor %}
 </div>
+<script>
+    function apiCas(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('Ответ сервера:', xhr.responseText);
+                location.reload();
+            } else {
+                console.error('Ошибка при выполнении запроса. Статус:', xhr.status, 'Текст ошибки:', xhr.statusText);
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Сетевая ошибка при выполнении запроса');
+        };
+        xhr.send();
+    }
+</script>
 {% endblock %}

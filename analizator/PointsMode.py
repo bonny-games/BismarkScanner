@@ -10,8 +10,8 @@ UisvimostToPoints = {
 }
 
 
-def Analis(code):
-    res = Defolt.Analis(code, "json")
+def Analis(code,id):
+    res = Defolt.Analis(code, id, "json")
     if (not res["isUspex"]):
         return res
     text = res["text"]

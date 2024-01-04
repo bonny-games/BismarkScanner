@@ -20,10 +20,12 @@ modeAnalisFuncsion = {
 
 def init():
     for i in range(Config.potoc):
-        Thread(target=Unit, args=(i,), daemon=True).start()
+        th = Thread(target=Unit, args=(i,), daemon=True)
+        th.start()
+        Config.PotocsActive.append(th)
 
 def Unit(i):
-    time.sleep(i)
+    time.sleep(i*5)
     while True:
         try:
             ContractPoisc()
@@ -47,9 +49,14 @@ def ContractPoisc():
     db.commit()
     sql.close()
     db.close()
-
-    resAnalis = modeAnalisFuncsion[res['Mode']](res['ContractCode'])
-
+    try:
+        resAnalis = modeAnalisFuncsion[res['Mode']](res['ContractCode'],res['id'])
+    except Exception as e:
+        error_message = str(traceback.format_exc())+"\n"+str(e)
+        resAnalis = {
+            "isUspex": False,
+            "text": str(error_message),
+        }
     db = sqlite3.connect(Config.NameBD)
     sql = db.cursor()
     if(resAnalis["isUspex"]):

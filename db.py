@@ -28,6 +28,9 @@ def init():
     sql.execute(f"UPDATE Contarcts SET Stayt = 0 WHERE Stayt = 1")
     db.commit()
 
+    sql.execute(f"UPDATE Contarcts SET Stayt = 3, ContractOutp=\"Breic\" WHERE Stayt = -1")
+    db.commit()
+
     sql.close()
     db.close()
 

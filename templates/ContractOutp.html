@@ -19,6 +19,18 @@ Statys: {% if  res['Stayt'] == 0 %}
 🟢
 {% elif  res['Stayt'] == 3 %}
 🔴
+{% elif  res['Stayt'] == -1 %}
+🔴🟡
+{% endif %}
+<br>
+{% if  res['Stayt'] == 0 %}
+<button onclick=apiCas('/api/contract/{{res["id"]}}/Cancel')>cancel</button>
+{% elif  res['Stayt'] == 1 %}
+<button onclick=apiCas('/api/contract/{{res["id"]}}/Breic')>Breic</button>
+{% elif  res['Stayt'] == 2 %}
+<button onclick=apiCas('/api/contract/{{res["id"]}}/Restart')>Restart</button>
+{% elif  res['Stayt'] == 3 %}
+<button onclick=apiCas('/api/contract/{{res["id"]}}/Restart')>Restart</button>
 {% endif %}
 <br>
 <a href="/contract/{{res['id']}}/view">View Code</a><br>
@@ -31,5 +43,55 @@ Statys: {% if  res['Stayt'] == 0 %}
 </div><br>
 <div class="selector">{{res['ContractCode']}}
 </div>
+<script>
+    function sendGETRequest() {
+        // Создаем новый объект XMLHttpRequest
+        var xhr = new XMLHttpRequest();
 
+        // Настраиваем запрос, указывая метод, URL и асинхронность
+        xhr.open('GET', '/contract/{{res["id"]}}/Stayt', true);
+
+        // Устанавливаем обработчик события загрузки данных
+        xhr.onload = function () {
+            // Проверяем успешность выполнения запроса
+            if (xhr.status >= 200 && xhr.status < 300) {
+                // Выводим ответ на консоль
+                console.log('Ответ сервера:', xhr.responseText);
+                if (xhr.responseText != "{{res['Stayt']}}") {
+                    location.reload();
+                }
+            } else {
+                // Выводим сообщение об ошибке на консоль
+                console.error('Ошибка при выполнении запроса. Статус:', xhr.status, 'Текст ошибки:', xhr.statusText);
+            }
+        };
+
+        // Устанавливаем обработчик события ошибки
+        xhr.onerror = function () {
+            console.error('Сетевая ошибка при выполнении запроса');
+        };
+
+        // Отправляем запрос
+        xhr.send();
+    }
+
+    setInterval(sendGETRequest, 1000);
+</script>
+<script>
+    function apiCas(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('Ответ сервера:', xhr.responseText);
+            } else {
+                console.error('Ошибка при выполнении запроса. Статус:', xhr.status, 'Текст ошибки:', xhr.statusText);
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Сетевая ошибка при выполнении запроса');
+        };
+        xhr.send();
+    }
+</script>
 {% endblock %}
